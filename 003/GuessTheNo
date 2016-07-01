@@ -1,0 +1,64 @@
+import random
+
+# global variables
+
+guess_left = 0
+secret_num = 0
+
+
+# helper function to restart game
+
+def new_game():
+    global num_range, high, low, secret_num, guess_left
+
+    num_range_enter = int(input('Input :1 for range 0-100 & Input :2 for 0-1000.Your Input:'))
+    if num_range_enter == 1:
+        num_range = 100
+        low = 0
+        high = 100
+    elif num_range_enter == 2:
+        num_range = 1000
+        low = 0
+        high = 1000
+
+    else:
+        print("Error:Enter Correct Range ")
+        new_game()
+
+    secret_num = random.randrange(0, num_range, 1)
+
+    if num_range == 100:
+        guess_left = 7
+    elif num_range == 1000:
+        guess_left = 10
+    print("New Game.Range is from 0 to", num_range)
+    print('Number of guess left is ', guess_left)
+    input_guess()
+
+def input_guess():
+    global guess_left,secret_num,high,low
+    over_range = guess_left
+    for i in range(0,over_range):
+        guess = int(input("Input no: "))
+        print ('Your Guess:', guess)
+
+        if secret_num == guess:
+            print("Guess is correct.Secret no is :", secret_num)
+            new_game()
+        elif secret_num > guess:
+            low = guess
+            print('Guess Higher! Current Range', low, high)
+        elif secret_num < guess:
+            high = guess
+            print('Guess Lower! Current Range', low, high)
+        guess_left -= 1
+        print("Number of guess left is ", guess_left)
+    if guess_left == 0:
+        print("Game Over:Secret number is :", secret_num)
+        new_game()
+
+
+# Main program
+
+new_game()
+
